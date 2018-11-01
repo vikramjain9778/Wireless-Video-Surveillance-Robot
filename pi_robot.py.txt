@@ -1,0 +1,54 @@
+
+import curses
+import RPi.GPIO as GPIO
+
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(16,GPIO.OUT)
+GPIO.setup(18,GPIO.OUT)
+GPIO.setup(23,GPIO.OUT)
+GPIO.setup(21,GPIO.OUT)
+
+
+screen = curses.initscr()
+curses.noecho() 
+curses.cbreak()
+screen.keypad(True)
+
+try:
+        while True:   
+            char = screen.getch()
+            if char == ord('q'):
+                break
+            elif char == curses.KEY_UP:
+                GPIO.output(16,False)
+                GPIO.output(18,True)
+                GPIO.output(23,False)
+                GPIO.output(21,True)
+            elif char == curses.KEY_DOWN:
+                GPIO.output(16,True)
+                GPIO.output(18,False)
+                GPIO.output(23,True)
+                GPIO.output(21,False)
+            elif char == curses.KEY_RIGHT:
+                GPIO.output(16,True)
+                GPIO.output(18,False)
+                GPIO.output(23,False)
+                GPIO.output(21,True)
+            elif char == curses.KEY_LEFT:
+                GPIO.output(16,False)
+                GPIO.output(18,True)
+                GPIO.output(23,True)
+                GPIO.output(21,False)
+            elif char == 10:
+                GPIO.output(16,False)
+                GPIO.output(18,False)
+                GPIO.output(23,False)
+                GPIO.output(21,False)
+             
+finally:
+    
+    curses.nocbreak(); screen.keypad(0); curses.echo()
+    curses.endwin()
+    GPIO.cleanup()
+    
